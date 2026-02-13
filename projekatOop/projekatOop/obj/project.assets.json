@@ -14,11 +14,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\ucenik\\source\\repos\\MenadzmentSkole\\projekatOop\\projekatOop\\projekatOop.csproj",
       "projectName": "projekatOop",
       "projectPath": "C:\\Users\\ucenik\\source\\repos\\MenadzmentSkole\\projekatOop\\projekatOop\\projekatOop.csproj",
       "packagesPath": "C:\\Users\\ucenik\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\ucenik\\source\\repos\\MenadzmentSkole\\projekatOop\\projekatOop\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\ucenik\\Desktop\\projekatOop\\projekatOop\\projekatOop.csproj",
+      "projectName": "projekatOop",
+      "projectPath": "C:\\Users\\ucenik\\Desktop\\projekatOop\\projekatOop\\projekatOop.csproj",
+      "packagesPath": "C:\\Users\\ucenik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ucenik\\Desktop\\projekatOop\\projekatOop\\obj\\",
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,7 +41,10 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+<<<<<<< HEAD
         "C:\\Program Files\\dotnet\\library-packs": {},
+=======
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

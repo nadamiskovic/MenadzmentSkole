@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "6i4Dev1iptY=",
   "success": true,
   "projectFilePath": "C:\\Users\\ucenik\\source\\repos\\MenadzmentSkole\\projekatOop\\projekatOop\\projekatOop.csproj",
+=======
+  "dgSpecHash": "iTPikiaUbng=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ucenik\\Desktop\\projekatOop\\projekatOop\\projekatOop.csproj",
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
   "expectedPackageFiles": [],
   "logs": []
 }

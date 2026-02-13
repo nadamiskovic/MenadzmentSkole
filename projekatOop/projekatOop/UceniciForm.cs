@@ -3,6 +3,10 @@ using System.Windows.Forms;
 
 namespace projekatOop
 {
+<<<<<<< HEAD
+=======
+    // Forma za upravljanje učenicima — koristi UcenikRepository (singleton)
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
     public partial class UceniciForm : Form
     {
         private readonly UcenikRepository repozitorij = UcenikRepository.Instance;
@@ -45,7 +49,10 @@ namespace projekatOop
                 return;
             }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
             var roditelj = new Roditelj
             {
                 Ime = txtRoditeljIme.Text.Trim(),
@@ -57,6 +64,7 @@ namespace projekatOop
             {
                 Ime = ime,
                 Prezime = prezime,
+<<<<<<< HEAD
                 JMBG = jmbg,
                 Odeljenje = txtOdeljenje.Text.Trim(),
                 Prosek = prosek,
@@ -69,6 +77,18 @@ namespace projekatOop
 
             repozitorij.DodajUcenika(ucenik);
 
+=======
+                Jmbg = jmbg,
+                Odeljenje = txtOdeljenje.Text.Trim(),
+                Prosek = prosek,
+                DatumUpisa = dtpDatumUpisa.Value,
+                Vladanje = Enum.TryParse<VladanjeEnum>(cbVladanje.SelectedItem.ToString(), out var v) ? v : VladanjeEnum.DOBRO,
+                Matura = Enum.TryParse<MaturaEnum>(cbMatura.SelectedItem.ToString(), out var m) ? m : MaturaEnum.NIJE_POLAGAO,
+                Roditelj = roditelj
+            };
+
+            repozitorij.DodajUcenika(ucenik);
+>>>>>>> 0f4fabc60a31d0da0418fdfdd341fd6e97348ddd
             OsveziPrikaz();
             OcistiUnos();
         }
