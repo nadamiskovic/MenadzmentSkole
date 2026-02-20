@@ -74,7 +74,7 @@ namespace projekatOop
             if (dgvCasovi.Columns[e.ColumnIndex].Name == "ProfesorCol")
             {
                 var cas = dgvCasovi.Rows[e.RowIndex].DataBoundItem as RasporedCasa;
-                e.Value = cas?.profesor?.ispisiPodatke() ?? "(nema)";
+                e.Value = cas?.profesor?.IspisiPodatke() ?? "(nema)";
             }
             if (dgvCasovi.Columns[e.ColumnIndex].DataPropertyName == "vremeOd")
             {
@@ -128,8 +128,8 @@ namespace projekatOop
             foreach (var p in profesori)
             {
                 sb.AppendLine();
-                sb.AppendLine($"* {p.ispisiPodatke()}");
-                var pCasovi = casovi.Where(c => c.profesor != null && c.profesor.id == p.id).OrderBy(c => c.dan).ThenBy(c => c.vremeOd).ToList();
+                sb.AppendLine($"* {p.IspisiPodatke()}");
+                var pCasovi = casovi.Where(c => c.profesor != null && c.profesor.Id == p.Id).OrderBy(c => c.dan).ThenBy(c => c.vremeOd).ToList();
                 if (!pCasovi.Any())
                 {
                     sb.AppendLine("  (nema dodeljenih časova)");

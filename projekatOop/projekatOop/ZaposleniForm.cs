@@ -66,8 +66,8 @@ namespace projekatOop
             {
                 // Provera da li već postoji profesor sa istim imenom/prezimenom
                 var exists = AppServices.ProfesorRepo.vratiSveProfesore().Any(x =>
-                    string.Equals(x.ime, zaposleni.Ime, StringComparison.OrdinalIgnoreCase) &&
-                    string.Equals(x.prezime, zaposleni.Prezime, StringComparison.OrdinalIgnoreCase));
+                    string.Equals(x.Ime, zaposleni.Ime, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(x.Prezime, zaposleni.Prezime, StringComparison.OrdinalIgnoreCase));
 
                 if (!exists)
                 {

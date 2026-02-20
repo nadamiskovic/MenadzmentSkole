@@ -18,7 +18,7 @@ namespace projekatOop
         public void dodajProfesor(Profesor profesor)
         {
             if (profesor == null) throw new ArgumentNullException(nameof(profesor));
-            if (profesori.Any(p => p.id == profesor.id)) return;
+            if (profesori.Any(p => p.Id == profesor.Id)) return;
             profesori.Add(profesor);
         }
 
@@ -35,7 +35,7 @@ namespace projekatOop
         /// </summary>
         public Profesor nadjiPoId(Guid id)
         {
-            return profesori.FirstOrDefault(p => p.id == id);
+            return profesori.FirstOrDefault(p => p.Id == id);
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace projekatOop
         {
             if (string.IsNullOrWhiteSpace(ime) || string.IsNullOrWhiteSpace(prezime)) return false;
             var toRemove = profesori.Where(p =>
-                string.Equals(p.ime, ime, StringComparison.OrdinalIgnoreCase) &&
-                string.Equals(p.prezime, prezime, StringComparison.OrdinalIgnoreCase)).ToList();
+                string.Equals(p.Ime, ime, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(p.Prezime, prezime, StringComparison.OrdinalIgnoreCase)).ToList();
 
             if (!toRemove.Any()) return false;
             foreach (var p in toRemove) profesori.Remove(p);

@@ -82,7 +82,7 @@ namespace projekatOop
 
                 if (original.profesor != null)
                 {
-                    var match = profesori.FirstOrDefault(p => p.id == original.profesor.id);
+                    var match = profesori.FirstOrDefault(p => p.Id == original.profesor.Id);
                     if (match != null) cbProfesor.SelectedItem = match;
                 }
             }

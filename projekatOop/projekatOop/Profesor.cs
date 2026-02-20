@@ -2,34 +2,26 @@
 
 namespace projekatOop
 {
-    public class Profesor
+    public class Profesor : Osoba
     {
-        public Guid id { get; private set; }
+        public Guid Id { get; private set; } 
+        public string Predmet { get; set; } = string.Empty;
 
-        public string ime { get; set; } = string.Empty;
-        public string prezime { get; set; } = string.Empty;
-        public string predmet { get; set; } = string.Empty;
-
-        public Profesor()
+        public Profesor(string ime, string prezime, string predmet)
+            : base(ime, prezime)
         {
-            id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
+            this.Predmet = predmet;
         }
 
-        public Profesor(string ime, string prezime, string predmet) : this()
+        public string IspisiPodatke()
         {
-            this.ime = ime;
-            this.prezime = prezime;
-            this.predmet = predmet;
-        }
-
-        public string ispisiPodatke()
-        {
-            return $"{ime} {prezime} ({predmet})";
+            return $"{Ime} {Prezime} ({Predmet})";
         }
 
         public override string ToString()
         {
-            return ispisiPodatke();
+            return IspisiPodatke();
         }
     }
 }

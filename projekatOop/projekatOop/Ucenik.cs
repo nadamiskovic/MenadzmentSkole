@@ -3,21 +3,29 @@ using System.Collections.Generic;
 
 namespace projekatOop
 {
-    public class Ucenik
+    public class Ucenik : Osoba
     {
-        public string Ime { get; set; } = string.Empty;
-        public string Prezime { get; set; } = string.Empty;
         public string Jmbg { get; set; } = string.Empty;
-
         public string Odeljenje { get; set; } = string.Empty;
         public double Prosek { get; set; }
         public DateTime DatumUpisa { get; set; }
+
         public VladanjeEnum Vladanje { get; set; }
         public MaturaEnum Matura { get; set; }
 
         public Roditelj? Roditelj { get; set; }
 
         public List<Dostignuce> Dostignuca { get; } = new();
+
+        public Ucenik(string ime, string prezime, string jmbg)
+            : base(ime, prezime)
+        {
+            Jmbg = jmbg;
+        }
+
+        public Ucenik() : base(string.Empty, string.Empty)
+        {
+        }
 
         public string IspisiPodatke()
         {

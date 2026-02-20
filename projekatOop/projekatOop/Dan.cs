@@ -91,7 +91,7 @@ namespace projekatOop
         /// </summary>
         public string ispisiPodatke()
         {
-            return $"{nazivCasa} - {dan} {vremeOd:hh\\:mm}-{vremeDo:hh\\:mm} ucionica: {ucionica} profesor: {profesor?.ispisiPodatke()}";
+            return $"{nazivCasa} - {dan} {vremeOd:hh\\:mm}-{vremeDo:hh\\:mm} ucionica: {ucionica} profesor: {profesor?.IspisiPodatke()}";
         }
     }
 }
