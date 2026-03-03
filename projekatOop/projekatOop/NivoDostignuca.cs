@@ -2,7 +2,7 @@
 
 namespace projekatOop
 {
-    // Nivo dostignuća (primeri)
+    // Dusan Zunic i Aleksa Dimitrijevic 
     public enum NivoDostignuca
     {
         SKOLSKI,
