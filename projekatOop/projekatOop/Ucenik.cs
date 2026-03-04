@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace projekatOop
 {
     public class Ucenik : Osoba
     {
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+
         public string Jmbg { get; set; } = string.Empty;
         public string Odeljenje { get; set; } = string.Empty;
         public double Prosek { get; set; }
@@ -18,13 +21,16 @@ namespace projekatOop
         public List<Dostignuce> Dostignuca { get; } = new();
 
         public Ucenik(string ime, string prezime, string jmbg)
-            : base(ime, prezime)
         {
+            Ime = ime;
+            Prezime = prezime;
             Jmbg = jmbg;
         }
 
-        public Ucenik() : base(string.Empty, string.Empty)
+        public Ucenik()
         {
+            Ime = string.Empty;
+            Prezime = string.Empty;
         }
 
         public string IspisiPodatke()
