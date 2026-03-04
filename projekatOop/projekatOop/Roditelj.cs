@@ -2,16 +2,22 @@ namespace projekatOop
 {
     public class Roditelj : Osoba
     {
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+
         public string JMBG { get; set; } = string.Empty;
         public string Telefon { get; set; } = string.Empty;
 
-        public Roditelj() : base("", "")
+        public Roditelj()
         {
+            Ime = string.Empty;
+            Prezime = string.Empty;
         }
 
         public Roditelj(string ime, string prezime, string telefon)
-            : base(ime, prezime)
         {
+            Ime = ime;
+            Prezime = prezime;
             Telefon = telefon;
         }
 
