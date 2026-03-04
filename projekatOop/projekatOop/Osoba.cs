@@ -1,18 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace projekatOop
 {
-    public abstract class Osoba : IOsoba
+    public interface Osoba
     {
-        public string Ime { get; set; }
-        public string Prezime { get; set; }
-
-        protected Osoba(string ime, string prezime)
-        {
-            Ime = ime;
-            Prezime = prezime;
-        }
+        string Ime { get; set; }
+        string Prezime { get; set; }
     }
 }
