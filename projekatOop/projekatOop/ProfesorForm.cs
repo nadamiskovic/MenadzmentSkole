@@ -1,16 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace projekatOop
 {
-    /// <summary>
-    /// Forma za unos novog profesora.
-    /// </summary>
     public class ProfesorForm : Form
     {
         private TextBox tbIme;
         private TextBox tbPrezime;
-        private TextBox tbPredmet;
+        private CheckedListBox clbPredmet;
         private Button btnOk;
         private Button btnCancel;
 
@@ -20,7 +19,7 @@ namespace projekatOop
         {
             Text = "Dodaj profesora";
             Width = 360;
-            Height = 220;
+            Height = 340;
             InitializeComponents();
         }
 
@@ -32,13 +31,25 @@ namespace projekatOop
             Label l2 = new Label { Left = 10, Top = 50, Text = "Prezime:" };
             tbPrezime = new TextBox { Left = 110, Top = 45, Width = 220 };
 
-            Label l3 = new Label { Left = 10, Top = 85, Text = "Predmet:" };
-            tbPredmet = new TextBox { Left = 110, Top = 80, Width = 220 };
+            Label l3 = new Label { Left = 10, Top = 85, Text = "Predmeti:" };
+            clbPredmet = new CheckedListBox { Left = 110, Top = 80, Width = 220, Height = 160 };
+            clbPredmet.Items.AddRange(new object[]
+            {
+                "Matematika",
+                "Fizika",
+                "Hemija",
+                "Biologija",
+                "Istorija",
+                "Geografija",
+                "Srpski jezik",
+                "Engleski jezik",
+                "Informatika"
+            });
 
-            btnOk = new Button { Left = 110, Top = 120, Width = 100, Text = "Dodaj" };
-            btnCancel = new Button { Left = 230, Top = 120, Width = 100, Text = "Otkaûi" };
+            btnOk = new Button { Left = 110, Top = 250, Width = 100, Text = "Dodaj" };
+            btnCancel = new Button { Left = 230, Top = 250, Width = 100, Text = "Otka≈æi" };
 
-            Controls.AddRange(new Control[] { l1, tbIme, l2, tbPrezime, l3, tbPredmet, btnOk, btnCancel });
+            Controls.AddRange(new Control[] { l1, tbIme, l2, tbPrezime, l3, clbPredmet, btnOk, btnCancel });
 
             btnOk.Click += BtnOk_Click;
             btnCancel.Click += (s, e) => DialogResult = DialogResult.Cancel;
@@ -48,11 +59,15 @@ namespace projekatOop
         {
             if (string.IsNullOrWhiteSpace(tbIme.Text) || string.IsNullOrWhiteSpace(tbPrezime.Text))
             {
-                MessageBox.Show("Unesite ime i prezime profesora.", "Greöka", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Unesite ime i prezime profesora.", "Gre≈°ka", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            Profesor = new Profesor(tbIme.Text.Trim(), tbPrezime.Text.Trim(), tbPredmet.Text.Trim());
+            var odabraniPredmeti = clbPredmet.CheckedItems
+                .Cast<string>()
+                .ToList();
+
+            Profesor = new Profesor(tbIme.Text.Trim(), tbPrezime.Text.Trim(), odabraniPredmeti);
             DialogResult = DialogResult.OK;
         }
     }
