@@ -28,6 +28,36 @@ namespace projekatOop
             cmbPozicija.Items.AddRange(Enum.GetNames<ZaposleniPozicija>());
             cmbPozicija.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPozicija.SelectedItem = ZaposleniPozicija.Profesor.ToString();
+
+            // CheckedListBox - lista predmeta
+            clbPredmet.Items.AddRange(new object[]
+            {
+                "Matematika",
+                "Fizika",
+                "Hemija",
+                "Biologija",
+                "Istorija",
+                "Geografija",
+                "Srpski jezik",
+                "Engleski jezik",
+                "Informatika"
+            });
+            lblPredmet.Visible = clbPredmet.Visible = false;
+
+            cmbPozicija.SelectedIndexChanged += CmbPozicija_SelectedIndexChanged;
+        }
+
+        private void CmbPozicija_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            var pozTekst = cmbPozicija.SelectedItem as string;
+            bool jeProfesor = string.Equals(pozTekst, ZaposleniPozicija.Profesor.ToString(), StringComparison.OrdinalIgnoreCase);
+            lblPredmet.Visible = clbPredmet.Visible = jeProfesor;
+
+            if (!jeProfesor)
+            {
+                for (int i = 0; i < clbPredmet.Items.Count; i++)
+                    clbPredmet.SetItemChecked(i, false);
+            }
         }
 
         private void btnDodaj_Click(object sender, EventArgs e)
@@ -43,7 +73,10 @@ namespace projekatOop
                 return;
             }
 
-            var pozicija = Enum.TryParse<ZaposleniPozicija>(pozTekst, out var p) ? p : ZaposleniPozicija.Drugo;
+            var pozicija = Enum.TryParse<ZaposleniPozicija>(pozTekst, out var p)
+                ? p
+                : ZaposleniPozicija.Drugo;
+
             var zaposleni = new Zaposleni(ime, prezime, id, pozicija);
 
             try
@@ -52,20 +85,23 @@ namespace projekatOop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Greška - duplikat ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Ako je zaposleni profesor, dodaj u ProfesorRepo
             if (zaposleni.Pozicija == ZaposleniPozicija.Profesor)
             {
+                var odabraniPredmeti = clbPredmet.CheckedItems
+                    .Cast<string>()
+                    .ToList();
+
                 var exists = AppServices.ProfesorRepo.vratiSveProfesore().Any(x =>
                     string.Equals(x.Ime, zaposleni.Ime, StringComparison.OrdinalIgnoreCase) &&
                     string.Equals(x.Prezime, zaposleni.Prezime, StringComparison.OrdinalIgnoreCase));
 
                 if (!exists)
                 {
-                    var noviProf = new Profesor(zaposleni.Ime, zaposleni.Prezime, string.Empty);
+                    var noviProf = new Profesor(zaposleni.Ime, zaposleni.Prezime, odabraniPredmeti);
                     AppServices.ProfesorRepo.dodajProfesor(noviProf);
                 }
             }
@@ -88,11 +124,8 @@ namespace projekatOop
                     return;
                 }
 
-                // Ako je bio profesor, ukloni iz ProfesorRepo
                 if (zaposleni.Pozicija == ZaposleniPozicija.Profesor)
-                {
                     AppServices.ProfesorRepo.ukloniProfesorPoImenuPrezime(zaposleni.Ime, zaposleni.Prezime);
-                }
 
                 OsveziPrikaz();
             }
@@ -113,9 +146,7 @@ namespace projekatOop
             List<Zaposleni> lista = Zaposleni.VratiSveZaposlene();
 
             if (izbor != "(Svi)" && Enum.TryParse<ZaposleniPozicija>(izbor, out var poz))
-            {
                 lista = lista.Where(z => z.Pozicija == poz).ToList();
-            }
 
             izvor.DataSource = lista;
             izvor.ResetBindings(false);
@@ -129,6 +160,13 @@ namespace projekatOop
             txtPrezime.Text = "";
             txtID.Text = "";
             cmbPozicija.SelectedItem = ZaposleniPozicija.Profesor.ToString();
+
+            for (int i = 0; i < clbPredmet.Items.Count; i++)
+                clbPredmet.SetItemChecked(i, false);
+
+            lblPredmet.Visible = clbPredmet.Visible = false;
         }
+
+        private void lblFilter_Click(object sender, EventArgs e) { }
     }
 }
