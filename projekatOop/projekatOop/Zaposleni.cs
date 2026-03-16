@@ -1,172 +1,72 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-
 namespace projekatOop
 {
-    public partial class ZaposleniForm : Form
+    public class Zaposleni : IOsoba
     {
-        private readonly BindingSource izvor = new();
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public ZaposleniPozicija Pozicija { get; set; } = ZaposleniPozicija.Drugo;
 
-        public ZaposleniForm()
+        public Zaposleni(string ime, string prezime, string id, ZaposleniPozicija pozicija)
         {
-            InitializeComponent();
-            Inicijalizuj();
+            Ime = ime;
+            Prezime = prezime;
+            Id = id;
+            Pozicija = pozicija;
         }
 
-        private void Inicijalizuj()
+        public string IspisiPodatke()
         {
-            izvor.DataSource = Zaposleni.VratiSveZaposlene();
-            dgvZaposleni.AutoGenerateColumns = true;
-            dgvZaposleni.DataSource = izvor;
-
-            cbFilterPozicija.Items.Add("(Svi)");
-            cbFilterPozicija.Items.AddRange(Enum.GetNames<ZaposleniPozicija>());
-            cbFilterPozicija.SelectedIndex = 0;
-
-            cmbPozicija.Items.AddRange(Enum.GetNames<ZaposleniPozicija>());
-            cmbPozicija.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPozicija.SelectedItem = ZaposleniPozicija.Profesor.ToString();
-
-            // CheckedListBox - lista predmeta
-            clbPredmet.Items.AddRange(new object[]
-            {
-                "Matematika",
-                "Fizika",
-                "Hemija",
-                "Biologija",
-                "Istorija",
-                "Geografija",
-                "Srpski jezik",
-                "Engleski jezik",
-                "Informatika"
-            });
-            lblPredmet.Visible = clbPredmet.Visible = false;
-
-            cmbPozicija.SelectedIndexChanged += CmbPozicija_SelectedIndexChanged;
+            return $"{Ime} {Prezime} (ID: {Id}) - Pozicija: {Pozicija}";
         }
 
-        private void CmbPozicija_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            var pozTekst = cmbPozicija.SelectedItem as string;
-            bool jeProfesor = string.Equals(pozTekst, ZaposleniPozicija.Profesor.ToString(), StringComparison.OrdinalIgnoreCase);
-            lblPredmet.Visible = clbPredmet.Visible = jeProfesor;
+        // --- Lista svih zaposlenih (staticka) ---
+        private static readonly List<Zaposleni> listaZaposlenih = new();
 
-            if (!jeProfesor)
+        // Dodavanje zaposlenog
+        public static void DodajZaposlenog(Zaposleni zaposleni)
+        {
+            if (listaZaposlenih.Any(z => z.Id.Equals(zaposleni.Id, StringComparison.OrdinalIgnoreCase)))
             {
-                for (int i = 0; i < clbPredmet.Items.Count; i++)
-                    clbPredmet.SetItemChecked(i, false);
+                throw new Exception("Zaposleni sa datim ID-jem već postoji.");
             }
+
+            listaZaposlenih.Add(zaposleni);
         }
 
-        private void btnDodaj_Click(object sender, EventArgs e)
+        // Brisanje zaposlenog po ID
+        public static void IzbrisiZaposlenog(string id)
         {
-            var ime = txtIme.Text.Trim();
-            var prezime = txtPrezime.Text.Trim();
-            var id = txtID.Text.Trim();
-            var pozTekst = cmbPozicija.SelectedItem as string ?? string.Empty;
-
-            if (string.IsNullOrWhiteSpace(ime) || string.IsNullOrWhiteSpace(prezime) || string.IsNullOrWhiteSpace(id))
+            var zaposleni = listaZaposlenih.FirstOrDefault(z => z.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+            if (zaposleni != null)
             {
-                MessageBox.Show("Popunite ime, prezime i ID.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var pozicija = Enum.TryParse<ZaposleniPozicija>(pozTekst, out var p)
-                ? p
-                : ZaposleniPozicija.Drugo;
-
-            var zaposleni = new Zaposleni(ime, prezime, id, pozicija);
-
-            try
-            {
-                Zaposleni.DodajZaposlenog(zaposleni);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Greška - duplikat ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (zaposleni.Pozicija == ZaposleniPozicija.Profesor)
-            {
-                var odabraniPredmeti = clbPredmet.CheckedItems
-                    .Cast<string>()
-                    .ToList();
-
-                var exists = AppServices.ProfesorRepo.vratiSveProfesore().Any(x =>
-                    string.Equals(x.Ime, zaposleni.Ime, StringComparison.OrdinalIgnoreCase) &&
-                    string.Equals(x.Prezime, zaposleni.Prezime, StringComparison.OrdinalIgnoreCase));
-
-                if (!exists)
-                {
-                    var noviProf = new Profesor(zaposleni.Ime, zaposleni.Prezime, odabraniPredmeti);
-                    AppServices.ProfesorRepo.dodajProfesor(noviProf);
-                }
-            }
-
-            OsveziPrikaz();
-            OcistiUnos();
-        }
-
-        private void btnObrisi_Click(object sender, EventArgs e)
-        {
-            if (dgvZaposleni.CurrentRow?.DataBoundItem is Zaposleni zaposleni)
-            {
-                try
-                {
-                    Zaposleni.IzbrisiZaposlenog(zaposleni.Id);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (zaposleni.Pozicija == ZaposleniPozicija.Profesor)
-                    AppServices.ProfesorRepo.ukloniProfesorPoImenuPrezime(zaposleni.Ime, zaposleni.Prezime);
-
-                OsveziPrikaz();
+                listaZaposlenih.Remove(zaposleni);
             }
             else
             {
-                MessageBox.Show("Izaberite zaposlenog za brisanje.", "Obaveštenje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                throw new Exception("Zaposleni sa datim ID-jem nije pronađen.");
             }
         }
 
-        private void cbFilterPozicija_SelectedIndexChanged(object sender, EventArgs e)
+        // Dohvatanje svih zaposlenih
+        public static List<Zaposleni> VratiSveZaposlene()
         {
-            PrimeniFilter();
+            return listaZaposlenih;
         }
+    }
 
-        private void PrimeniFilter()
-        {
-            var izbor = cbFilterPozicija.SelectedItem as string;
-            List<Zaposleni> lista = Zaposleni.VratiSveZaposlene();
-
-            if (izbor != "(Svi)" && Enum.TryParse<ZaposleniPozicija>(izbor, out var poz))
-                lista = lista.Where(z => z.Pozicija == poz).ToList();
-
-            izvor.DataSource = lista;
-            izvor.ResetBindings(false);
-        }
-
-        private void OsveziPrikaz() => PrimeniFilter();
-
-        private void OcistiUnos()
-        {
-            txtIme.Text = "";
-            txtPrezime.Text = "";
-            txtID.Text = "";
-            cmbPozicija.SelectedItem = ZaposleniPozicija.Profesor.ToString();
-
-            for (int i = 0; i < clbPredmet.Items.Count; i++)
-                clbPredmet.SetItemChecked(i, false);
-
-            lblPredmet.Visible = clbPredmet.Visible = false;
-        }
-
-        private void lblFilter_Click(object sender, EventArgs e) { }
+    // Editovanje pozicija zaposlenih
+    public enum ZaposleniPozicija
+    {
+        Profesor,
+        Domar,
+        Spremacica,
+        Pedagog,
+        Psiholog,
+        Direktor,
+        ZamenikDirektor,
+        Sekretarica,
+        Bibliotekar,
+        Drugo
     }
 }
