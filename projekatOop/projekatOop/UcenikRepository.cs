@@ -3,15 +3,14 @@ using System.Linq;
 
 namespace projekatOop
 {
-    // Singleton repozitorijum za u?enike
     public class UcenikRepository
     {
-        private static readonly UcenikRepository instance = new UcenikRepository();
-        private readonly List<Ucenik> ucenici = new();
+        private static readonly UcenikRepository instance = new UcenikRepository();//instanca pravi objekat od klase
+        private readonly List<Ucenik> ucenici = new();//kreira jednu listu sa ucenicima
 
-        private UcenikRepository() { }
+        private UcenikRepository() { }//zakljucan ne mozemo da pravimo nove objekte
 
-        public static UcenikRepository Instance => instance;
+        public static UcenikRepository Instance => instance;//posto je konstruktor zakljucan ovo nam daje da pristupamo jednoj jeidnoj instanci UcenikRepository u celom programu
 
         public void DodajUcenika(Ucenik ucenik)
         {
@@ -22,7 +21,7 @@ namespace projekatOop
         {
             if (ucenik != null) ucenici.Remove(ucenik);
         }
-
-        public List<Ucenik> DobaviSveUcenike() => ucenici.ToList();
+        //=> - lambda, operator koji oznacava metodu koja samo vraca vrednost
+        public List<Ucenik> DobaviSveUcenike() => ucenici.ToList();//metoda koja vraca celu listu ucenik
     }
 }
