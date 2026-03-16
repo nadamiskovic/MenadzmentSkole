@@ -1,6 +1,6 @@
 namespace projekatOop
 {
-    public class Zaposleni : IOsoba
+    public class Zaposleni : Osoba
     {
         public string Ime { get; set; }
         public string Prezime { get; set; }
