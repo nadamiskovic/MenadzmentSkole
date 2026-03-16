@@ -211,7 +211,7 @@ namespace projekatOop
             clbPredmet.ForeColor = SystemColors.WindowText;
             clbPredmet.Location = new Point(410, 12);
             clbPredmet.Name = "clbPredmet";
-            clbPredmet.Size = new Size(200, 21);
+            clbPredmet.Size = new Size(200, 160);
             clbPredmet.TabIndex = 21;
             clbPredmet.Visible = false;
             // 
