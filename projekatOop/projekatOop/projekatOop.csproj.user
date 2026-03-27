@@ -7,6 +7,9 @@
     <Compile Update="DodajDostignuceForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="DostignucaAleksaForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="DostignucaForm.cs">
       <SubType>Form</SubType>
     </Compile>
