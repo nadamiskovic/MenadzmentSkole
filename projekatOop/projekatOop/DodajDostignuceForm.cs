@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace projekatOop
 {
-    // Modalni dijalog za kreiranje novog dostignuća i povezivanje sa učenikom
     public partial class DodajDostignuceForm : Form
     {
         private readonly Ucenik _ucenik;
@@ -24,7 +23,6 @@ namespace projekatOop
             cbNivo.Items.AddRange(Enum.GetNames<NivoDostignuca>());
             cbNivo.SelectedIndex = 0;
 
-            // podrazumevani datum
             dtpDatum.Value = DateTime.Today;
             dtpRokVazenja.Value = DateTime.Today.AddYears(1);
 
@@ -83,7 +81,6 @@ namespace projekatOop
                 novo = new Takmicenje(id, naziv, opis, institucija, datum, nivo, mentor, rang, nazivTak, timska);
             }
 
-            // Dodaj u repozitorijum (repozitorijum će takođe ažurirati ucenik.Dostignuca)
             DostignuceRepository.Instance.DodajZaUcenika(_ucenik, novo);
             DialogResult = DialogResult.OK;
             Close();
