@@ -63,11 +63,12 @@ namespace projekatOop
                 return;
             }
 
-            var odabraniPredmeti = clbPredmet.CheckedItems
-                .Cast<string>()
-                .ToList();
+            var odabraniPredmeti = clbPredmet.CheckedItems.Cast<string>().ToList();
+            var predmet = odabraniPredmeti.Count == 0
+                ? "Nije unet predmet"
+                : string.Join(", ", odabraniPredmeti);
 
-            Profesor = new Profesor(tbIme.Text.Trim(), tbPrezime.Text.Trim(), odabraniPredmeti);
+            Profesor = new Profesor(tbIme.Text.Trim(), tbPrezime.Text.Trim(), predmet);
             DialogResult = DialogResult.OK;
         }
     }
